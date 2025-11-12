@@ -3,10 +3,10 @@
 #include <util/delay.h>
 
 int main() {
-
+  PORTA.DIR = 0xFF;
   uint8_t number = 0b0;
+
   while (1) {
-    PORTA.DIR = number;
     PORTA.OUT = number;
     number++;
     _delay_ms(500);
