@@ -1,23 +1,33 @@
+-include .env
+
+export
+
 ifdef MAKE_PIO
 
+# ==========================================
 # Erik mode
+# ==========================================
+
+PIO_ENV ?= erik
 
 .PHONY: upload run clean all
 
 all: upload
 
 upload:
-	pio run -t upload -e erik
+	pio run -t upload -e $(PIO_ENV)
 
 run:
-	pio run -t upload -t monitor -e erik
+	pio run -t upload -t monitor -e $(PIO_ENV)
 
 clean:
 	rm -rf .pio
 
 else
 
+# ==========================================
 # Felix mode
+# ==========================================
 
 PROGRAM_NAME = blink
 SRC_DIR = src
