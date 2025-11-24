@@ -1,31 +1,51 @@
+#define F_CPU 4000000UL
+#define BAUD_RATE 115200
+
+// Calculate Baud Register
+#define USART0_BAUD_VAL ((float)(4.0 * F_CPU / (BAUD_RATE)) + 0.5)
+
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdio.h>
+
+void USART0_init(void) {
+    PORTA.DIR |= PIN0_bm;       // TX Output
+    PORTA.DIR &= ~PIN1_bm;      // RX Input
+    USART0.BAUD = (uint16_t)USART0_BAUD_VAL;
+    USART0.CTRLB |= USART_TXEN_bm | USART_RXEN_bm;
+}
+
+void LED_init(void) {
+    PORTA.DIR |= PIN7_bm;
+}
+
+void USART0_sendChar(const char c) {
+    while (!(USART0.STATUS & USART_DREIF_bm)) {}
+    USART0.TXDATAL = c;
+}
+
+int USART0_printChar(const char c, FILE *stream) {
+    USART0_sendChar(c);
+    return 0;
+}
+
+FILE USART_stream = FDEV_SETUP_STREAM(USART0_printChar, NULL, _FDEV_SETUP_WRITE);
 
 int main(void) {
-	PORTD.DIR = 0b11111111;
-	PORTC.DIR = 0b11111111;
+    USART0_init();
+    LED_init();
 
-	//PORTD.PINCONFIG = PORT_PULLUPEN_bm;
-	//PORTD.PINCTRLUPD = 0b11111111;
+    stdout = &USART_stream;
 
-	uint8_t font[10] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f};
-	uint8_t nums[4]  = {6, 7, 6, 7};
-	uint8_t number = 0;
-	for (;;) {
-		//PORTA.OUT = PORTD.IN;
-		for (int i = 0; i < 10; ++i) {
+    uint16_t count = 0;
 
-			for (uint8_t j = 0; j < 4; ++j) {
-				PORTD.OUT = 255;
-				PORTC.OUT = (1 << j);
-				PORTD.OUT = ~font[nums[j]];
-				_delay_us(10);
-			}
+    while (1) {
+        printf("Counter: %d\n", count++);
 
-			//PORTD.OUT = ~0x4f;
-			//number = (number + 1) % 4;
+        PORTA.OUT |= PIN7_bm;
+        _delay_ms(500);
 
-			//_delay_ms(1);
-		}
-	}
+        PORTA.OUT &= ~PIN7_bm;
+        _delay_ms(500);
+    }
 }
