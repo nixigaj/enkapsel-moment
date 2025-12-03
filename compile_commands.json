@@ -1,0 +1,28 @@
+[
+  {
+    "directory": "/home/felix/Projects/c_micro_controllers/labs",
+    "file": "src/blink.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/blink.c -o build/blink.o"
+  },
+  {
+    "directory": "/home/felix/Projects/c_micro_controllers/labs",
+    "file": "src/micro1.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/micro1.c -o build/micro1.o"
+  },
+  {
+    "directory": "/home/felix/Projects/c_micro_controllers/labs",
+    "file": "src/micro2.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/micro2.c -o build/micro2.o"
+  },
+  {
+    "directory": "/home/felix/Projects/c_micro_controllers/labs",
+    "file": "src/micro3.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/micro3.c -o build/micro3.o"
+  },
+  {
+    "directory": "/home/felix/Projects/c_micro_controllers/labs",
+    "file": "src/micro4.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/micro4.c -o build/micro4.o"
+  }
+]
+
