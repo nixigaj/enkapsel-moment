@@ -27,12 +27,10 @@ ISR(RTC_PIT_vect)
               | (1 << (segments[digit][segment] >> 4));
   }
   segment ++;
-  if (segment > 7)
-  {
+  if (segment > 7) {
     segment = 0;
     digit ++;
-    if (digit > 2)
-    {
+    if (digit > 2) {
       digit = 0;
     }
   }

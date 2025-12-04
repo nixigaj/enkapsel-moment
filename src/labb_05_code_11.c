@@ -1,3 +1,4 @@
+#define F_CPU 4000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -64,25 +65,25 @@ int main(void)
 
   sei();
 
-  VREF.ADC0REF   = VREF_REFSEL_..._gc;
+  VREF.ADC0REF   = VREF_REFSEL_VDD_gc;
   PORTD.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-  ADC0.CTRLA     = (... << ADC_CONVMODE_bp)
-                 | ADC_RESSEL_..._gc
+  ADC0.CTRLA     = (1 << ADC_CONVMODE_bp)
+                 | ADC_RESSEL_12BIT_gc
                  | ADC_ENABLE_bm;
-  ADC0.CTRLB     = ADC_SAMPNUM_..._gc;
-  ADC0.CTRLC     = ADC_PRESC_..._gc;
-  ADC0.CTRLD     = ADC_INITDLY_..._gc
-                 | ADC_SAMPDLY_..._gc;
+  ADC0.CTRLB     = ADC_SAMPNUM_NONE_gc;
+  ADC0.CTRLC     = ADC_PRESC_DIV20_gc;
+  ADC0.CTRLD     = ADC_INITDLY_DLY0_gc
+                 | ADC_SAMPDLY_DLY0_gc;
   ADC0.CTRLE     = 0;
   ADC0.SAMPCTRL  = 0;
-  ADC0.MUXPOS    = ADC_MUXPOS_..._gc;
-  ADC0.MUXNEG    = ADC_MUXNEG_..._gc;
+  ADC0.MUXPOS    = ADC_MUXPOS_AIN0_gc;
+  ADC0.MUXNEG    = ADC_MUXNEG_GND_gc;
 
   uint16_t result;
   while (1)
   {
-    ADC0.COMMAND = ADC_..._bm;
-    while (ADC0.COMMAND ... ADC_..._bm) {}
+    ADC0.COMMAND = ADC_STCONV_bm;
+    while (ADC0.COMMAND != ADC_SPCONV_bm) {}
     result = ADC0.RES / 4; 
     print_number(result, 0);
     _delay_ms(200);

@@ -79,13 +79,13 @@ int main(void)
   ADC0.MUXPOS = ADC_MUXPOS_AIN0_gc;
   ADC0.MUXNEG = ADC_MUXNEG_GND_gc;
 
-  TCA0.SINGLE.CTRLA = TCA_SINGLE_..._bm
-                    | TCA_SINGLE_CLKSEL_..._gc;
-  TCA0.SINGLE.CTRLB = TCA_SINGLE_..._bm
-                    | TCA_SINGLE_WGMODE_..._gc;
-  TCA0.SINGLE.PER   = ...;
-  PORTMUX.TCAROUTEA = PORTMUX_..._..._gc;
-  PORTC.DIR         = ...;
+  TCA0.SINGLE.CTRLA = TCA_SINGLE_ENABLE_bm
+                    | TCA_SINGLE_CLKSEL_DIV4_gc;
+  TCA0.SINGLE.CTRLB = TCA_SINGLE_CMP0EN_bm
+                    | TCA_SINGLE_WGMODE_SINGLESLOPE_gc;
+  TCA0.SINGLE.PER   = 4096;
+  PORTMUX.TCAROUTEA = PORTMUX_AC0_DEFAULT_gc;
+  PORTC.DIR         = 0x01;
 
   uint16_t result;
   while (1)
