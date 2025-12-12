@@ -1,23 +1,18 @@
 [
   {
     "directory": "/home/felix/Projects/c_micro_controllers/labs",
-    "file": "src/labb_05_code_00.c",
-    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_05_code_00.c -o build/labb_05_code_00.o"
+    "file": "src/labb_06_code_01.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_06_code_01.c src/nokia5110_hspi.c -o build/labb_06_code_01.o"
   },
   {
     "directory": "/home/felix/Projects/c_micro_controllers/labs",
-    "file": "src/labb_05_code_11.c",
-    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_05_code_11.c -o build/labb_05_code_11.o"
+    "file": "src/labb_06_code_02.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_06_code_02.c src/nokia5110_hspi.c -o build/labb_06_code_02.o"
   },
   {
     "directory": "/home/felix/Projects/c_micro_controllers/labs",
-    "file": "src/labb_05_code_21.c",
-    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_05_code_21.c -o build/labb_05_code_21.o"
+    "file": "src/labb_06_code_03.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_06_code_03.c src/nokia5110_hspi.c -o build/labb_05_code_03.o"
   },
-  {
-    "directory": "/home/felix/Projects/c_micro_controllers/labs",
-    "file": "src/labb_05_code_31.c",
-    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_05_code_31.c -o build/labb_05_code_31.o"
-  }
 ]
 

@@ -1,53 +1,41 @@
-# PROGRAM_NAME = labb_05_code_00
-# SRC_DIR = src
-# BUILD_DIR = build
-# TARGET := avr32da28
-# PORT := ttyACM0
-# all: $(PROGRAM_NAME)
-#
-#
-# # Create the build directory
-# $(BUILD_DIR):
-# 	mkdir -pv $(BUILD_DIR)
-# # Compile and build the program for Atmega328P
-# $(PROGRAM_NAME): $(BUILD_DIR)
-# 	avr-gcc -mmcu=$(TARGET) -Wall -Os -o $(BUILD_DIR)/$(PROGRAM_NAME).elf $(SRC_DIR)/$(PROGRAM_NAME).c
-# 	avr-objcopy -j .text -j .data -O ihex $(BUILD_DIR)/$(PROGRAM_NAME).elf $(BUILD_DIR)/$(PROGRAM_NAME).hex
-#
-# asm: $(BUILD_DIR)
-# 	avr-gcc -mmcu=$(TARGET) -Wall -Os -g -S $(SRC_DIR)/$(PROGRAM_NAME).c -o $(BUILD_DIR)/$(PROGRAM_NAME).S
-#
-# upload: $(PROGRAM_NAME)
-# 	avrdude -c serialupdi -p avr32da28 -P /dev/ttyACM0 -U flash:w:$(BUILD_DIR)/$(PROGRAM_NAME).hex
-#
-# # Remove build directory with all built files
-# clean:
-# 	rm -rf $(BUILD_DIR) 
-#
-#
-PROGRAM_NAME = labb_05_code_00
+MCU = avr32da28
+F_CPU = 4000000UL
+CC = avr-gcc
+OBJCOPY = avr-objcopy
+
+CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -std=gnu11
 SRC_DIR = src
 BUILD_DIR = build
-TARGET := avr32da28
-PORT := ttyACM0
-all: $(PROGRAM_NAME)
 
+COMMON_SRC = $(SRC_DIR)/nokia5110_hspi.c
+LAB_SRCS = $(wildcard $(SRC_DIR)/labb_*.c)
+ELFS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.elf, $(LAB_SRCS))
+HEXS = $(patsubst %.elf, %.hex, $(ELFS))
 
-# Create the build directory
-$(BUILD_DIR):
-	mkdir -pv $(BUILD_DIR)
-# Compile and build the program for Atmega328P
-$(PROGRAM_NAME): $(BUILD_DIR)
-	avr-gcc -mmcu=$(TARGET) -Wall -DF_CPU=4000000UL -Os -o $(BUILD_DIR)/$(PROGRAM_NAME).elf $(SRC_DIR)/$(PROGRAM_NAME).c
-	avr-objcopy -j .text -j .data -O ihex $(BUILD_DIR)/$(PROGRAM_NAME).elf $(BUILD_DIR)/$(PROGRAM_NAME).hex
+all: $(HEXS)
 
-asm: $(BUILD_DIR)
-	avr-gcc -mmcu=$(TARGET) -Wall -Os -g -S $(SRC_DIR)/$(PROGRAM_NAME).c -o $(BUILD_DIR)/$(PROGRAM_NAME).S
+$(BUILD_DIR)/%.elf: $(SRC_DIR)/%.c $(COMMON_SRC)
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $^ -o $@
 
-upload: $(PROGRAM_NAME)
-	avrdude -c serialupdi -p avr32da28 -P /dev/ttyACM0 -U flash:w:$(BUILD_DIR)/$(PROGRAM_NAME).hex
+%.hex: %.elf
+	$(OBJCOPY) -O ihex $< $@
 
-# Remove build directory with all built files
 clean:
-	rm -rf $(BUILD_DIR) 
+	rm -rf $(BUILD_DIR)
+
+# Generate per-target upload rules
+UPLOAD_TARGETS = $(patsubst $(BUILD_DIR)/%.hex, upload_%, $(HEXS))
+
+$(UPLOAD_TARGETS): upload_%: $(BUILD_DIR)/%.hex
+	avrdude \
+		-c serialupdi \
+		-p 32da28 \
+		-P /dev/ttyACM0 \
+		-U flash:w:$<:i
+
+monitor:
+	screen /dev/ttyACM1 19200
+
+.PHONY: all clean monitor
 
