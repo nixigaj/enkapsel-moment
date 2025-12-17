@@ -8,9 +8,16 @@ SRC_DIR = src
 BUILD_DIR = build
 
 COMMON_SRC = $(SRC_DIR)/nokia5110_hspi.c
-LAB_SRCS = $(wildcard $(SRC_DIR)/labb_*.c)
+LAB_SRCS = $(wildcard $(SRC_DIR)/lab_*.c)
 ELFS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.elf, $(LAB_SRCS))
 HEXS = $(patsubst %.elf, %.hex, $(ELFS))
+
+
+# Build individual labs by name: make lab_07_code_11
+LAB_TARGETS = $(patsubst $(SRC_DIR)/%.c, %, $(LAB_SRCS))
+
+$(LAB_TARGETS):
+	$(MAKE) $(BUILD_DIR)/$@.hex
 
 all: $(HEXS)
 
@@ -35,7 +42,7 @@ $(UPLOAD_TARGETS): upload_%: $(BUILD_DIR)/%.hex
 		-U flash:w:$<:i
 
 monitor:
-	screen /dev/ttyACM1 19200
+	screen /dev/ttyACM3 19200
 
 .PHONY: all clean monitor
 
