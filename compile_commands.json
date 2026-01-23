@@ -1,8 +1,8 @@
 [
   {
     "directory": "/home/felix/Projects/c_micro_controllers/labs",
-    "file": "src/labb_07_code_11.c",
-    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_07_code_11.c src/nokia5110_hspi.c -o build/labb_07_code_11.o"
+    "file": "src/labb_8_code_1.c",
+    "command": "avr-gcc -mmcu=avr32da28 -DF_CPU=4000000UL -I/usr/lib/gcc/avr/14.2.0/include -I/usr/avr/include -Wall -Os -c src/labb_8_code_1.c -o build/labb_8_code_1.o"
   },
   {
     "directory": "/home/felix/Projects/c_micro_controllers/labs",

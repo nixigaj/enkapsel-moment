@@ -1,5 +1,5 @@
 MCU = avr32da28
-F_CPU = 4000000UL
+F_CPU = 16000000UL
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 
@@ -7,7 +7,6 @@ CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -std=gnu11
 SRC_DIR = src
 BUILD_DIR = build
 
-COMMON_SRC = $(SRC_DIR)/nokia5110_hspi.c
 LAB_SRCS = $(wildcard $(SRC_DIR)/lab_*.c)
 ELFS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.elf, $(LAB_SRCS))
 HEXS = $(patsubst %.elf, %.hex, $(ELFS))
@@ -21,7 +20,7 @@ $(LAB_TARGETS):
 
 all: $(HEXS)
 
-$(BUILD_DIR)/%.elf: $(SRC_DIR)/%.c $(COMMON_SRC)
+$(BUILD_DIR)/%.elf: $(SRC_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
 
@@ -42,7 +41,7 @@ $(UPLOAD_TARGETS): upload_%: $(BUILD_DIR)/%.hex
 		-U flash:w:$<:i
 
 monitor:
-	screen /dev/ttyACM3 19200
+	screen /dev/ttyACM4 19200
 
 .PHONY: all clean monitor
 
